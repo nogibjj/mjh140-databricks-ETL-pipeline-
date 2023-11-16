@@ -4,49 +4,51 @@ Databricks query script
 import sys
 import os
 import pandas as pd
+from pyspark.sql import SparkSession
+from delta import *
+from logging import getLogger
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
 sys.path.insert(0, parent_dir)
 
-from mylib.sqlconn import sqlConnect, sqlClose
+from mylib.DLconn import datalake_connect
+from logging_config.log_config import setup_logging
 
-def averageEFF(c):
-    '''Calculate average combined adjusted offense/defense by team between 2002 and 2018.
-       Return top 10 teams and their respective scores.'''
+# Initialize logging
+setup_logging()
+logger_error = getLogger('error_logger')
+logger_info = getLogger('info_logger')
 
-    query = '''
-        WITH t AS (
-        SELECT t1.Year, t1.Team, t1.AdjustD, t2.AdjustO, (t2.AdjustO - t1.AdjustD) 
-        AS Largest_OD_Diff 
-        FROM kenpom_data AS t1
-        INNER JOIN kenpoms_adj_o AS t2 
-        ON t1.Team = t2.Team 
-        AND t1.Year = t2.Year
-        )
+account_key = os.getenv("account_key")
+account_name = os.getenv("account_name")
 
-        SELECT t.Team, AVG(t.Largest_OD_Diff) AS Average_EFF
-        FROM t
-        GROUP BY t.Team
-        ORDER BY Average_EFF DESC'''
-    
-    c.execute(query)
-    results = c.fetchall()
-    top10 = {results[i][0]: results[i][1] for i in range(10)}
-    col_names = ["Team", "Combined Adjusted O/D"]
-    top10_df = pd.DataFrame(list(top10.items()), columns= col_names)
-    print(top10_df)
+def initialize_spark():
+     '''Initialize Spark Session'''
+
+     # Create Spark session
+     spark = SparkSession.builder.appName("NCAABDataLakeApp")\
+     .config("spark.hadoop.fs.azure.account.key.mjh140dukestorage.dfs.core.windows.net", "tQVQmoOjBTUzRubHETDwJTPZym4Gz+ao7ACWBmGeP22xvXZfrLF8blBUR9M7+Uuh1aBZ9i7FH+jv+ASt6MHXjA==")\
+     .getOrCreate()
+     
+     logger_info.info("Successfully Spark Session")
+     return spark
+
+def off_v_def_retrieve(file_system_client):
+      pass
+def off_v_def_viz(data_df):
+      pass
 
 
 if __name__ == "__main__":
-      print("Connecting to Azure Databricks - Kenpoms Database")
-      cursor, status = sqlConnect()
+     print("Connecting to NCAAB Data Lake")
+     file_system_client, status = datalake_connect()
+     if status != "Success":
+          print('Error Occurred. Check error_log.txt.')
+          sys.exit()
 
-      if status != "Success":
-           print('Error Occurred. Check error_log.txt.')
-           sys.exit()
+     spark = initialize_spark()
 
-      averageEFF(cursor)
+     data_df = off_v_def_retrieve(file_system_client)
 
-      print("Closing connection to database.")
-      sqlClose(cursor)
+     off_v_def_viz(data_df)

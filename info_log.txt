@@ -1,0 +1,10 @@
+2023-11-15 18:29:13,667 - INFO - Successfully authenticated service client.
+2023-11-15 18:29:13,667 - INFO - Successfully authenticated ncaab_data_lake file system client.
+2023-11-15 18:48:25,542 - INFO - Successfully authenticated service client.
+2023-11-15 18:48:25,542 - INFO - Successfully authenticated ncaab_data_lake file system client.
+2023-11-15 18:49:24,885 - INFO - Successfully authenticated service client.
+2023-11-15 18:49:24,885 - INFO - Successfully authenticated ncaab_data_lake file system client.
+2023-11-15 19:10:20,629 - INFO - Successfully authenticated service client.
+2023-11-15 19:10:20,631 - INFO - Successfully authenticated ncaab_data_lake file system client.
+2023-11-15 19:25:28,132 - INFO - Successfully authenticated service client.
+2023-11-15 19:25:28,136 - INFO - Successfully authenticated ncaab_data_lake file system client.
