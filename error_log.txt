@@ -1,0 +1,30 @@
+2023-11-16 00:03:51,110 - ERROR - Error message: Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.
+RequestId:b29c512a-901e-0055-394a-1817d8000000
+Time:2023-11-16T05:03:52.1699278Z
+ErrorCode:AuthenticationFailed
+authenticationerrordetail:The MAC signature found in the HTTP request 'GLS908jsJ5rqzXzH7gde3fpIr/1LwReW42+wcNBTUYI=' is not the same as any computed signature. Server used following string to sign: 'GET
+
+
+
+
+
+
+
+
+
+
+
+x-ms-client-request-id:87f7f081-843d-11ee-9587-9cb6d093916c
+x-ms-date:Thu, 16 Nov 2023 05:03:50 GMT
+x-ms-version:2023-11-03
+/mjh140dukestorage/
+comp:properties
+restype:service'.
+2023-11-16 00:07:23,804 - ERROR - An error occurred: The specified container does not exist.
+RequestId:ca3d2513-101e-005b-1e4a-183e68000000
+Time:2023-11-16T05:07:24.8704433Z
+ErrorCode:ContainerNotFound
+2023-11-16 00:08:17,914 - ERROR - An error occurred: The specified container does not exist.
+RequestId:792d93d9-c01e-0048-664a-181a64000000
+Time:2023-11-16T05:08:18.9788929Z
+ErrorCode:ContainerNotFound

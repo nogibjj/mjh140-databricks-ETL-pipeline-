@@ -36,31 +36,35 @@ def datalake_connect():
         service_client = DataLakeServiceClient(account_url=account_url,
                                                credential=account_key)
         # Trigger network request
-        _ = service_client.list_file_systems()
+        systems = service_client.get_service_properties()
         logger_info.info("Successfully authenticated service client.")
         
         # Establish file system client
         file_system_client = service_client.get_file_system_client(file_system=DL_name)
 
         # Trigger network request
-        _ = file_system_client.get_paths()
+        properties = file_system_client.get_file_system_properties()
         logger_info.info("Successfully authenticated ncaab_data_lake file system client.")
 
 
     except ClientAuthenticationError as e:
-        logger_error.error("Error message: %s", e)
+        error_summary = e.args[0] if e.args else 'ClientAuthenticationError occurred'
+        logger_error.error("Error message: %s", error_summary)
         return None, "Error"
 
     except ServiceRequestError as e:
-        logger_error.error("Error message: %s", e)
+        error_summary = e.args[0] if e.args else 'ServiceRequestError occurred'
+        logger_error.error("Error message: %s",error_summary)
         return None, "Error"
 
     except Exception as e:
-        logger_error.error("An error occurred: %s", e)
+        error_summary = e.args[0] if e.args else 'An unexpected error occurred'
+        logger_error.error("An error occurred: %s", error_summary)
         return None, "Error"
 
     return file_system_client, "Success"
 
 if __name__ == "__main__":
     file_system_client, status = datalake_connect()
+    
     
